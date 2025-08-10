@@ -6,6 +6,10 @@ export interface ICustomer extends Document {
   phoneNumber: string;
   serviceId: mongoose.Types.ObjectId;
   zoneId: mongoose.Types.ObjectId;
+  expiry: Date;
+  building: string;
+  level: string;
+  street: string;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -49,6 +53,37 @@ const customerSchema: Schema = new Schema(
       ref: 'Zone',
       required: [true, 'Zone is required']
     },
+    expiry: {
+      type: Date,
+      required: [true, 'Expiry date is required'],
+      validate: {
+        validator: function(v: Date) {
+          return v > new Date();
+        },
+        message: 'Expiry date must be in the future'
+      }
+    },
+    building: {
+      type: String,
+      required: [true, 'Building is required'],
+      trim: true,
+      minlength: [1, 'Building cannot be empty'],
+      maxlength: [100, 'Building cannot exceed 100 characters']
+    },
+    level: {
+      type: String,
+      required: [true, 'Level is required'],
+      trim: true,
+      minlength: [1, 'Level cannot be empty'],
+      maxlength: [50, 'Level cannot exceed 50 characters']
+    },
+    street: {
+      type: String,
+      required: [true, 'Street is required'],
+      trim: true,
+      minlength: [2, 'Street must be at least 2 characters long'],
+      maxlength: [200, 'Street cannot exceed 200 characters']
+    },
     isActive: {
       type: Boolean,
       default: true
@@ -59,7 +94,6 @@ const customerSchema: Schema = new Schema(
     versionKey: false
   }
 );
-
 
 // Pre-find middleware to populate service and zone information
 customerSchema.pre('find', function (next) {

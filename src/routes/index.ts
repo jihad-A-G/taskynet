@@ -7,6 +7,9 @@ import zoneRoutes from './zoneRoutes';
 import categoryRoutes from './categoryRoutes';
 import customerRoutes from './customerRoutes';
 import taskRoutes from './taskRoutes';
+import invoiceRoutes from './invoiceRoutes';
+import companyRoutes from './companyRoutes';
+import collectorRoutes from './collectorRoutes';
 
 const router = Router();
 
@@ -21,5 +24,8 @@ router.use('/zones', zoneRoutes);
 router.use('/categories', categoryRoutes);
 router.use('/customers', customerRoutes);
 router.use('/tasks', taskRoutes);
+router.use('/invoices', invoiceRoutes);
+router.use('/company', companyRoutes);
+router.use('/collectors', collectorRoutes);
 
 export default router;
