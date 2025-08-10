@@ -3,8 +3,9 @@ import mongoose, { Document, Schema } from 'mongoose';
 export enum TaskStage {
   PENDING = 'pending',
   ASSIGNED = 'assigned',
+  ACCEPTED = 'accepted',
   IN_PROGRESS = 'in_progress',
-  ON_HOLD = 'on_hold',
+  ARRIVED = 'arrived',
   COMPLETED = 'completed',
   CANCELLED = 'cancelled'
 }

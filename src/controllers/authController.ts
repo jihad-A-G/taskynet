@@ -1,3 +1,43 @@
+// Temporary admin signup endpoint
+export const signup = async (req: Request, res: Response) => {
+  try {
+    const { firstName, lastName, email, password, address, phoneNumber } = req.body;
+    if (!firstName || !lastName || !email || !password || !address || !phoneNumber) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+    // Check if any admin exists
+    const existingAdmin = await User.findOne({ email });
+    if (existingAdmin) {
+      return res.status(400).json({ error: 'Admin already exists with this email' });
+    }
+    // Create admin role if not exists
+    let Role;
+    try {
+      Role = require('../models/Role').default;
+    } catch {
+      Role = null;
+    }
+    let adminRole = Role ? await Role.findOne({ name: 'Admin' }) : null;
+    if (!adminRole && Role) {
+      adminRole = await Role.create({ name: 'Admin', description: 'System administrator' });
+    }
+    // Create admin user
+    const newAdmin = new User({
+      firstName,
+      lastName,
+      email,
+      password,
+      address,
+      phoneNumber,
+      roleId: adminRole ? adminRole._id : undefined,
+      isActive: true
+    });
+    await newAdmin.save();
+    return res.status(201).json({ message: 'Admin created successfully', user: newAdmin });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../models';

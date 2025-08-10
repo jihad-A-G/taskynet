@@ -10,6 +10,7 @@ import taskRoutes from './taskRoutes';
 import invoiceRoutes from './invoiceRoutes';
 import companyRoutes from './companyRoutes';
 import collectorRoutes from './collectorRoutes';
+import employeeRoutes from './employeeRoutes';
 
 const router = Router();
 
@@ -27,5 +28,6 @@ router.use('/tasks', taskRoutes);
 router.use('/invoices', invoiceRoutes);
 router.use('/company', companyRoutes);
 router.use('/collectors', collectorRoutes);
+router.use('/employee', employeeRoutes);
 
 export default router;

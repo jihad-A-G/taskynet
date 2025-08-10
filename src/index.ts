@@ -7,6 +7,7 @@ import { Server } from 'socket.io';
 import path from 'path';
 import DatabaseConnection from './config/database';
 import routes from './routes';
+import { swaggerUi, swaggerSpec } from './swagger';
 import 'dotenv/config'; // Load environment variables from .env file
 
 const app: Application = express();
@@ -28,6 +29,9 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Serve static files for Socket.IO test client
 app.use('/examples', express.static(path.join(__dirname, '../examples')));
+
+// Swagger Docs
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // API Routes
 app.use('/api', routes);
